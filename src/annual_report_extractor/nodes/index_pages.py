@@ -6,15 +6,45 @@ from annual_report_extractor.models import GraphState
 
 
 STATEMENT_KEYWORDS = {
-    "balance_sheet": ["balance sheet", "balance sheets", "statement of financial position"],
-    "profit_and_loss": ["statement of profit and loss", "profit and loss", "income statement"],
-    "cash_flow": ["cash flow statement", "statement of cash flows"],
+    "balance_sheet": [
+        "balance sheet",
+        "balance sheets",
+        "statement of financial position",
+        "balance sheet summary",
+        "financial position",
+    ],
+    "profit_and_loss": [
+        "statement of profit and loss",
+        "profit and loss",
+        "profit & loss",
+        "profit & loss statement",
+        "income statement",
+    ],
+    "cash_flow": [
+        "cash flow statement",
+        "statement of cash flows",
+        "cash flow statement summary",
+        "cash flow summary",
+    ],
 }
 
 
 def _is_consolidated(text: str) -> bool:
     lowered = text.lower()
     return "consolidated" in lowered and "standalone" not in lowered
+
+
+def _is_summary_statement_page(text: str) -> bool:
+    lowered = text.lower()
+    return any(
+        keyword in lowered
+        for keyword in (
+            "financial summary",
+            "balance sheet summary",
+            "cash flow statement summary",
+            "profit & loss statement",
+        )
+    )
 
 
 def _candidate_score(text: str, keywords: list[str]) -> int:
@@ -30,7 +60,7 @@ def index_pages(state: GraphState) -> GraphState:
             continue
         for statement_type, keywords in STATEMENT_KEYWORDS.items():
             score = _candidate_score(text, keywords)
-            if score and _is_consolidated(text):
+            if score and (_is_consolidated(text) or _is_summary_statement_page(text)):
                 page_map[statement_type].append(page["page_number"])
 
     compact_page_map: dict[str, list[int]] = {}

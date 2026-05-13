@@ -29,10 +29,12 @@ def export_workbook(
         "profit_and_loss": "PL",
         "cash_flow": "CF",
     }
+    sheet_order = ("balance_sheet", "profit_and_loss", "cash_flow")
     for result in company_results:
         ticker = result["company"]["ticker"]
-        statements = result["statements"]
-        for key, statement in statements.items():
+        statements = result.get("statements", {})
+        for key in sheet_order:
+            statement = statements.get(key, {"line_items": []})
             sheet = workbook.create_sheet(f"{ticker}_{sheet_suffix[key]}")
             sheet.append(
                 [

@@ -12,7 +12,7 @@ load_dotenv()
 
 @dataclass(frozen=True)
 class Settings:
-    llm_provider: str = os.getenv("LLM_PROVIDER", "openai")
+    llm_provider: str = os.getenv("LLM_PROVIDER", "auto")
     openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
     openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
     output_dir: Path = Path("output")
