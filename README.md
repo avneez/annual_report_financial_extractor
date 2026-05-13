@@ -1,21 +1,6 @@
-Metadata-Version: 2.4
-Name: annual-report-financial-extractor
-Version: 0.1.0
-Summary: LangGraph-based annual report financial extractor for Indian listed companies.
-Requires-Python: >=3.11
-Description-Content-Type: text/markdown
-Requires-Dist: langgraph>=0.2.60
-Requires-Dist: langchain-openai>=0.2.14
-Requires-Dist: openai>=1.57.0
-Requires-Dist: pymupdf>=1.24.10
-Requires-Dist: openpyxl>=3.1.5
-Requires-Dist: streamlit>=1.40.0
-Requires-Dist: python-dotenv>=1.0.1
-Requires-Dist: pydantic>=2.10.3
-
 # Annual Report Financial Extractor
 
-This project is a submission-ready starter for the annual report extractor assignment. It uses a LangGraph pipeline to:
+This project is a annual report extractor. It uses a LangGraph pipeline to:
 
 - accept uploaded annual report PDFs,
 - locate consolidated financial statement pages,
